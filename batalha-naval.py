@@ -4,7 +4,7 @@ from colorama import Fore, Style
 def cria_matriz(tamanho=5):
     return [["⬜" for _ in range(tamanho)] for _ in range(tamanho)]
 
-def adiciona_navios(matriz):
+def adiciona_navios(matriz): # Thalia (refatorar)
     navios = 0
 
     while navios < 3:
@@ -57,7 +57,7 @@ def mostra_matriz(matriz):
                 print("🌊")
         print("\n")
 
-def fazer_ataque():
+def fazer_ataque(): # Karol adicionar mais tratativas de erro
     while True:
         tentativa = input("informe a linha e a coluna que voce quer atirar ").split()
         if len(tentativa) !=2:
@@ -148,3 +148,6 @@ def jogar():
 
 jogar()
 
+#adicionar testes unitários (lilweek)
+# adicionar tratativa para não aceitar nome vazio (nath)
+# Melhorar quando acerta um navio não deve deixar atacar ali novamente (mensagem de erro) (pedrao)
