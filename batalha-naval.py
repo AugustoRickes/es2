@@ -4,57 +4,29 @@ from colorama import Fore, Style
 def cria_matriz(tamanho=5):
     return [["⬜" for _ in range(tamanho)] for _ in range(tamanho)]
 
-def adiciona_navios(matriz): # Thalia (refatorar)
-    navios = 0
 
-    while navios < 3:
-        x = random.randint(0, 4)
-        y = random.randint(0, 4)
-        if matriz [x][y] == "⬜":
-                matriz[x][y] = "🚤"
-                navios += 1
-                
-    while True:
-        orientacao = random.choice(["H", "V"])
-        x = random.randint(0, 4)
-        y = random.randint(0, 4)
-        if orientacao == "H" and y < 4:
-            if matriz [x][y] == "⬜" and matriz[x][y+1] == "⬜":
-                matriz[x][y] = "⛵"
-                matriz [x][y+1] = "⛵"
-                break
-        elif orientacao == "V" and y < 4:
-            if matriz [x][y] == "⬜" and matriz[x+1][y] == "⬜":
-                matriz[x][y] = "⛵"
-                matriz [x+1][y] = "⛵"
-                break
-
-    while True:
-        orientacao = random.choice(["H", "V"])
-        x = random.randint(0, 4)
-        y = random.randint(0, 4)
-        if orientacao == "H" and y < 3:
-            if matriz [x][y] == "⬜" and matriz[x][y+1] == "⬜" and matriz[x][y+2] == "⬜":
-                matriz[x][y] = "🚢"
-                matriz [x][y+1] = "🚢"
-                matriz [x][y+2] = "🚢"
-                break
-        elif orientacao == "V" and y < 3:
-            if matriz [x][y] == "⬜" and matriz[x+1][y] == "⬜" and matriz[x+2][y] == "⬜":
-                matriz[x][y] = "🚢"
-                matriz [x+1][y] = "🚢"
-                matriz [x+2][y] = "🚢"
+def adiciona_navios(matriz): #Thalia
+#adiciona navios aleatoriamente na matriz
+    tipos_navios = ["🚤", "⛵", "🚢"]
+    
+    # Adiciona cada tipo de navio
+    for navio in tipos_navios:
+        while True:
+            x = random.randint(0, 4)
+            y = random.randint(0, 4)
+            if matriz[x][y] == "⬜":
+                matriz[x][y] = navio
                 break
 
 def mostra_matriz(matriz):
     print("   1   2   3   4   5")
     for i in range(5):
         print(f"{i+1} ", end="")
-        for j in range(5):  
+        for j in range(5):
             if matriz[i][j] in ["🚤", "⛵", "🚢", "❌", "⬜"]:
                 print(f" {matriz[i][j]} ", end="")
             else:
-                print("🌊")
+                print(" 🌊 ", end="")
         print("\n")
 
 def fazer_ataque(): # Karol adicionar mais tratativas de erro
