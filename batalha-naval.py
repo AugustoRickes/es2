@@ -57,18 +57,36 @@ def mostra_matriz(matriz):
                 print("🌊")
         print("\n")
 
-def fazer_ataque(): # Karol adicionar mais tratativas de erro
+def fazer_ataque():
     while True:
-        tentativa = input("informe a linha e a coluna que voce quer atirar ").split()
-        if len(tentativa) !=2:
-            print("informe a LINHA e a COLUNA separadas por espaco")
+        tentativa = input("Informe a linha e a coluna que você quer atirar: ").strip()
+        
+        if not tentativa:
+            print("Por favor, informe a LINHA e a COLUNA separadas por espaço.")
             continue
+        
         try:
-            x = int(tentativa[0]) - 1
-            y = int(tentativa[1]) - 1
+            x_str, y_str = tentativa.split()
+            
+            x = int(x_str) - 1
+            y = int(y_str) - 1
+            
+            if not (0 <= x <= 9 and 0 <= y <= 9):
+                raise ValueError
+            
             return x, y
+        
         except ValueError:
-            print("insira NUMEROS para a LINHA e a COLUNA")
+            print("Por favor, insira dois números inteiros válidos para a LINHA e a COLUNA (entre 1 e 10).")
+        
+        except KeyboardInterrupt:
+            print("\nOperação interrompida pelo usuário.")
+            raise  
+        
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {str(e)}")
+            raise3
+            
 
 # --------------------------- Programa Principal ---------------------------------------------
 def jogar():
