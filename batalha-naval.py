@@ -4,59 +4,56 @@ from colorama import Fore, Style
 def cria_matriz(tamanho=5):
     return [["⬜" for _ in range(tamanho)] for _ in range(tamanho)]
 
-def adiciona_navios(matriz): # Thalia (refatorar)
-    navios = 0
+def adiciona_navios(matriz): # Thalia (Refatoração)
+    adicionar_navio("🚤", matriz, 3)
+    adicionar_navio("⛵", matriz, 2)
+    adicionar_navio("🚢", matriz, 1)
 
-    while navios < 3:
+def adicionar_navio(tipo_navio, matriz, quantidade):
+    navios_adicionados = 0
+    while navios_adicionados < quantidade:
         x = random.randint(0, 4)
         y = random.randint(0, 4)
-        if matriz [x][y] == "⬜":
+        if pode_colocar_navio(x, y, tipo_navio, matriz):
+            if tipo_navio == "⛵":
+                if random.choice(["H", "V"]) == "H":
+                    matriz[x][y] = "⛵"
+                    matriz[x][y + 1] = "⛵"
+                else:
+                    matriz[x][y] = "⛵"
+                    matriz[x + 1][y] = "⛵"
+            elif tipo_navio == "🚢":
+                if random.choice(["H", "V"]) == "H":
+                    matriz[x][y] = "🚢"
+                    matriz[x][y + 1] = "🚢"
+                    matriz[x][y + 2] = "🚢"
+                else:
+                    matriz[x][y] = "🚢"
+                    matriz[x + 1][y] = "🚢"
+                    matriz[x + 2][y] = "🚢"
+            else:
                 matriz[x][y] = "🚤"
-                navios += 1
-                
-    while True:
-        orientacao = random.choice(["H", "V"])
-        x = random.randint(0, 4)
-        y = random.randint(0, 4)
-        if orientacao == "H" and y < 4:
-            if matriz [x][y] == "⬜" and matriz[x][y+1] == "⬜":
-                matriz[x][y] = "⛵"
-                matriz [x][y+1] = "⛵"
-                break
-        elif orientacao == "V" and y < 4:
-            if matriz [x][y] == "⬜" and matriz[x+1][y] == "⬜":
-                matriz[x][y] = "⛵"
-                matriz [x+1][y] = "⛵"
-                break
+            navios_adicionados += 1
 
-    while True:
-        orientacao = random.choice(["H", "V"])
-        x = random.randint(0, 4)
-        y = random.randint(0, 4)
-        if orientacao == "H" and y < 3:
-            if matriz [x][y] == "⬜" and matriz[x][y+1] == "⬜" and matriz[x][y+2] == "⬜":
-                matriz[x][y] = "🚢"
-                matriz [x][y+1] = "🚢"
-                matriz [x][y+2] = "🚢"
-                break
-        elif orientacao == "V" and y < 3:
-            if matriz [x][y] == "⬜" and matriz[x+1][y] == "⬜" and matriz[x+2][y] == "⬜":
-                matriz[x][y] = "🚢"
-                matriz [x+1][y] = "🚢"
-                matriz [x+2][y] = "🚢"
-                break
+def pode_colocar_navio(x, y, tipo_navio, matriz):
+    if tipo_navio == "🚤":
+        return matriz[x][y] == "⬜"
+    elif tipo_navio == "⛵":
+        return (y < 4 and matriz[x][y] == "⬜" and matriz[x][y + 1] == "⬜") or (x < 4 and matriz[x][y] == "⬜" and matriz[x + 1][y] == "⬜")
+    elif tipo_navio == "🚢":
+        return (y < 3 and matriz[x][y] == "⬜" and matriz[x][y + 1] == "⬜" and matriz[x][y + 2] == "⬜") or (x < 3 and matriz[x][y] == "⬜" and matriz[x + 1][y] == "⬜" and matriz[x + 2][y] == "⬜")
+    return False
 
 def mostra_matriz(matriz):
     print("   1   2   3   4   5")
     for i in range(5):
-        print(f"{i+1} ", end="")
-        for j in range(5):  
+        print(f"{i + 1} ", end="")
+        for j in range(5):
             if matriz[i][j] in ["🚤", "⛵", "🚢", "❌", "⬜"]:
                 print(f" {matriz[i][j]} ", end="")
             else:
-                print("🌊")
+                print("🌊", end="")
         print("\n")
-
 def fazer_ataque(): # Karol adicionar mais tratativas de erro
     while True:
         tentativa = input("informe a linha e a coluna que voce quer atirar ").split()
